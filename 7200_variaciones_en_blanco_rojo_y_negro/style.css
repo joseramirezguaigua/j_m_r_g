@@ -1,0 +1,13 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+canvas {
+  min-width: min(100vw, 100vh);
+  min-height: min(100vw, 100vh);
+  max-width: min(100vw, 100vh);
+  max-height: min(100vw, 100vh);}
