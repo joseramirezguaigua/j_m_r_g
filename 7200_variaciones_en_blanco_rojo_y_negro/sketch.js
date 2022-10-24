@@ -31,7 +31,7 @@ window.setTimeout( function() {
 
 function preload() {
   myText = loadStrings("3umbral_.txt");
-  myFont = loadFont("Jura-Bold.ttf");
+  myFont = loadFont("Jura-VariableFont_wght.otf");
 }
 
 function setup() {
