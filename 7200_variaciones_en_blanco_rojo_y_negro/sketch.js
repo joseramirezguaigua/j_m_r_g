@@ -104,7 +104,7 @@ function draw() {
   background(256,0,0);
    
   //background(256,0,0);
-  if (fade>255) fadeAmount=-0.7; 
+  if (fade>255) fadeAmount=-0.3; 
  
   
 
