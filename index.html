@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>José Ramírez Guaigua — Portafolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pahxmX0mA3O0nKfN6CrNAXEFuKqUuznErpLz9BB4XHq7Sh5rL0tWzS3B7Kq1+qwUuVCEH1yrKuWO4HzjKZOxuw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     :root{--left-w:28%;--gap:20px;--max-img-h:70vh}
     html,body{min-height:100%;margin:0;font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;color:#000}
@@ -14,13 +15,18 @@
     .menu h2{font-size:18px;margin:16px 0 6px 0}
     .menu a{display:block;color:#000;text-decoration:underline;margin:6px 0;font-size:15px}
     .menu p.contact{font-size:13px;margin-top:22px}
+    .menu-social{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;margin-top:18px;border:1px solid #ddd;border-radius:50%;color:#000;text-decoration:none;font-size:16px;transition:all .2s ease}
+    .menu-social:hover{background:#000;color:#fff;border-color:#000}
+    .menu-social .screen-reader-text{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0;margin:-1px}
     .slideshow{flex:1;position:relative;min-height:520px;max-height:var(--max-img-h);background:#f7f7f7;border:1px solid #e8e8e8;border-radius:18px;overflow:hidden;display:flex;align-items:center;justify-content:center}
-    .slide{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);max-height:100%;max-width:100%;width:auto;height:auto;object-fit:contain;display:none}
-    .slide.active{display:block}
-    .caption-wrap{width:100%;text-align:center;margin-top:16px;min-height:3rem;padding:0 12px}
+    .slides{position:relative;width:100%;height:100%;min-height:320px}
+    .slide{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .4s ease;}
+    .slide.active{opacity:1;z-index:1;}
+    .caption-wrap{width:100%;text-align:center;margin-top:18px;min-height:3rem;padding:0 12px}
     .caption{font-style:italic;color:#555;display:inline-block;max-width:100%;line-height:1.4}
-    .arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
-    .arrow.left{left:12px} .arrow.right{right:12px}
+    .arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);border:1px solid #ddd;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,0.08);transition:background .2s ease,color .2s ease}
+    .arrow.left{left:14px} .arrow.right{right:14px}
+    .arrow:hover{background:#000;color:#fff}
     .arrow svg{width:18px;height:18px}
     @media(max-width:1100px){.wrap{gap:16px}}
     @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%;position:static;max-height:none;overflow:visible}.arrow{display:none}}
@@ -47,14 +53,16 @@
       <a href="ejercicios-de-contravisualidad-2010-2019/index.html">Ejercicios de Contravisualidad</a>
       <a href="la-performance-necesaria-2011/index.html">La Performance Necesaria (2011)</a>
       <p class="contact"><strong>Contacto:</strong> jose.ramirez.guaigua@gmail.com</p>
+      <a class="menu-social" href="https://www.instagram.com/joseramirezguaigua/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram" aria-hidden="true"></i><span class="screen-reader-text">Instagram</span></a>
     </nav>
     <section class="slideshow" aria-label="Galería">
-      <div class="arrow left" id="prev" aria-hidden="true">
+      <div class="slides"></div>
+      <button class="arrow left" id="prev" aria-label="Anterior obra">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="arrow right" id="next" aria-hidden="true">
+      </button>
+      <button class="arrow right" id="next" aria-label="Siguiente obra">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
+      </button>
     </section>
     <div class="caption-wrap"><div class="caption" id="caption"></div></div>
   </div>
@@ -83,20 +91,22 @@
       'Sketchbooks'
     ];
     const slideshow = document.querySelector('.slideshow');
+    const slidesContainer = slideshow.querySelector('.slides');
     let idx = 0, slides = [];
     function createSlides(){
-      images.forEach((src,i)=>{
+      slides = images.map((src,i)=>{
         const img = document.createElement('img');
-        img.src = src; img.alt = captions[i]||''; img.className='slide';
-        if(i===0) img.classList.add('active');
-        slideshow.insertBefore(img, document.getElementById('prev'));
-        slides.push(img);
+        img.src = src;
+        img.alt = captions[i] || '';
+        img.className = 'slide' + (i === 0 ? ' active' : '');
+        slidesContainer.appendChild(img);
+        return img;
       });
       updateCaption();
     }
     function show(n){
-      slides.forEach(s=>s.classList.remove('active'));
-      idx = (n+slides.length)%slides.length;
+      slides[idx].classList.remove('active');
+      idx = (n + slides.length) % slides.length;
       slides[idx].classList.add('active');
       updateCaption();
     }
