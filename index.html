@@ -7,17 +7,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pahxmX0mA3O0nKfN6CrNAXEFuKqUuznErpLz9BB4XHq7Sh5rL0tWzS3B7Kq1+qwUuVCEH1yrKuWO4HzjKZOxuw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     :root { --left-w:28%; --gap:20px; --slide-size:500px; }
-    html, body { min-height:100%; margin:0; font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color:#000; background:#fff; }
+    html, body { min-height:100%; margin:0; font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color:#000; background:#fff; font-weight:400; }
     .wrap { display:flex; gap:var(--gap); padding:28px; box-sizing:border-box; max-width:1200px; margin:0 auto; align-items:flex-start; }
     .menu { width:var(--left-w); min-width:240px; position:sticky; top:28px; align-self:flex-start; max-height:calc(100vh - 56px); overflow:auto; padding-right:8px; }
     .menu h1, .mobile-title h1, .menu h2 { font-size:18px; margin:16px 0 6px 0; }
-    .menu h1 { font-weight:inherit; }
+    .menu h1, .mobile-title h1 { font-weight:700; }
     .menu h1 a { color:inherit; text-decoration:none; }
     .menu a { display:block; color:#000; text-decoration:underline; margin:6px 0; font-size:15px; }
     .menu p.contact { font-size:13px; margin-top:22px; }
-    .menu-social { display:inline-flex; align-items:center; justify-content:center; margin-top:18px; color:#000; text-decoration:none; background:transparent; transition:all .2s ease; }
-    .menu-social:hover { background:transparent; }
-    .menu-social img { width:25px; height:25px; display:block; }
+    .menu-social { display:inline-flex; align-items:center; justify-content:center; margin-top:12px; color:#000; text-decoration:none; background:transparent; transition:all .2s ease; }
+    .menu-social:hover { opacity:.75; }
+    .menu-social svg { width:25px; height:25px; display:block; fill:currentColor; }
     .menu-social .screen-reader-text { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; padding:0; margin:-1px; }
     .mobile-title { display:none; padding:0 28px 16px; }
     .mobile-title h1 { font-size:32px; margin:0; }
@@ -60,7 +60,10 @@
       <a href="ejercicios-de-contravisualidad-2010-2019/index.html">Ejercicios de Contravisualidad</a>
       <a href="la-performance-necesaria-2011/index.html">La Performance Necesaria (2011)</a>
       <p class="contact"><strong>Contacto:</strong> jose.ramirez.guaigua@gmail.com</p>
-      <a class="menu-social" href="https://www.instagram.com/joseramirezguaigua/" target="_blank" rel="noopener noreferrer"><img src="free-instagram-logo-icon-3497-thumb.png" alt="Instagram" /><span class="screen-reader-text">Instagram</span></a>
+      <a class="menu-social" href="https://www.instagram.com/joseramirezguaigua/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm0 1.8A4 4 0 0 0 3.8 7.8v8.4A4 4 0 0 0 7.8 20.2h8.4a4 4 0 0 0 4-4V7.8a4 4 0 0 0-4-4H7.8zm9.2 1.4a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8A3.2 3.2 0 1 0 12 15.2 3.2 3.2 0 0 0 12 8.8z"/></svg>
+        <span class="screen-reader-text">Instagram</span>
+      </a>
     </nav>
     <section class="slideshow" aria-label="Galería">
       <div class="slides">
