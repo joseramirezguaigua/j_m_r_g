@@ -5,21 +5,22 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>José Ramírez Guaigua — Portafolio</title>
   <style>
-    :root{--left-w:36%;--gap:40px;--max-img-h:78vh}
-    html,body{height:100%;margin:0;font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;color:#000}
-    .wrap{display:flex;gap:var(--gap);padding:40px;box-sizing:border-box}
-    .menu{width:var(--left-w);min-width:260px}
+    :root{--left-w:28%;--gap:20px;--max-img-h:70vh}
+    html,body{min-height:100%;margin:0;font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;color:#000}
+    .wrap{display:flex;gap:var(--gap);padding:28px;box-sizing:border-box;max-width:1200px;margin:0 auto}
+    .menu{width:var(--left-w);min-width:240px}
     .menu h1{font-size:28px;margin:0 0 18px 0}
-    .menu h2{font-size:18px;margin:18px 0 6px 0}
-    .menu a{display:block;color:#000;text-decoration:underline;margin:8px 0;font-size:16px}
+    .menu h2{font-size:18px;margin:16px 0 6px 0}
+    .menu a{display:block;color:#000;text-decoration:underline;margin:6px 0;font-size:15px}
     .menu p.contact{font-size:13px;margin-top:22px}
-    .slideshow{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
-    .slide{max-height:var(--max-img-h);max-width:100%;display:none}
+    .slideshow{flex:1;position:relative;min-height:520px;max-height:var(--max-img-h);background:#f7f7f7;border:1px solid #e8e8e8;border-radius:18px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .slide{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);max-height:100%;max-width:100%;width:auto;height:auto;object-fit:contain;display:none}
     .slide.active{display:block}
-    .caption{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;font-style:italic;color:#555;text-align:center;width:90%}
+    .caption{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;font-style:italic;color:#555;text-align:center;width:90%;padding:0 12px}
     .arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
-    .arrow.left{left:8px} .arrow.right{right:8px}
+    .arrow.left{left:12px} .arrow.right{right:12px}
     .arrow svg{width:18px;height:18px}
+    @media(max-width:1100px){.wrap{gap:16px}}
     @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%}.arrow{display:none}}
   </style>
 </head>
@@ -27,22 +28,22 @@
   <div class="wrap">
     <nav class="menu">
       <h1>José Ramírez Guaigua</h1>
-      <a href="bio/">Bio</a>
+      <a href="bio/index.html">Bio</a>
       <h2>Arte Generativo (2023 - presente)</h2>
-      <a href="arte-generativo/">Acerca del arte generativo</a>
-      <a href="arte-generativo/#generador">Generador de Poesía Visual Interactiva</a>
-      <a href="arte-generativo/#infinitas">Infinitas formas del Infinito</a>
-      <a href="arte-generativo/#argos">Argos Panoptes Online</a>
+      <a href="arte-generativo/index.html">Acerca del arte generativo</a>
+      <a href="arte-generativo/index.html#generador">Generador de Poesía Visual Interactiva</a>
+      <a href="arte-generativo/index.html#infinitas">Infinitas formas del Infinito</a>
+      <a href="arte-generativo/index.html#argos">Argos Panoptes Online</a>
       <h2>Proyecto Rubedox (2021 - 2023)</h2>
-      <a href="rubedox/">Acerca de Rubedox</a>
-      <a href="rubedox/#movimiento">Movimiento Perpetuo</a>
-      <a href="rubedox/#historia">Historia del ojo</a>
-      <a href="rubedox/#arcanos">Los Arcanos perdidos</a>
-      <a href="rubedox/#sketch">Los sketchbooks</a>
+      <a href="rubedox/index.html">Acerca de Rubedox</a>
+      <a href="rubedox/index.html#movimiento">Movimiento Perpetuo</a>
+      <a href="rubedox/index.html#historia">Historia del ojo</a>
+      <a href="rubedox/index.html#arcanos">Los Arcanos perdidos</a>
+      <a href="rubedox/index.html#sketch">Los sketchbooks</a>
       <h2>Otros proyectos</h2>
-      <a href="sociedades-americanas/">Sociedades Americanas 2.0</a>
-      <a href="ejercicios-de-contravisualidad-2010-2019/">Ejercicios de Contravisualidad</a>
-      <a href="la-performance-necesaria-2011/">La Performance Necesaria (2011)</a>
+      <a href="sociedades-americanas/index.html">Sociedades Americanas 2.0</a>
+      <a href="ejercicios-de-contravisualidad-2010-2019/index.html">Ejercicios de Contravisualidad</a>
+      <a href="la-performance-necesaria-2011/index.html">La Performance Necesaria (2011)</a>
       <p class="contact"><strong>Contacto:</strong> jose.ramirez.guaigua@gmail.com</p>
     </nav>
     <section class="slideshow" aria-label="Galería">
