@@ -7,7 +7,7 @@
   <style>
     :root{--left-w:36%;--gap:40px}
     html,body{height:100%;margin:0;font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;color:#000}
-    .wrap{display:flex;gap:var(--gap);padding:40px;box-sizing:border-box;align-items:flex-start}
+    .wrap{display:flex;gap:var(--gap);padding:40px;box-sizing:border-box;align-items:flex-start;max-width:1300px;margin:0 auto}
     .menu{width:var(--left-w);min-width:260px;position:sticky;top:40px;align-self:flex-start;max-height:calc(100vh - 80px);overflow:auto;padding-right:8px}
     .menu h1{font-size:28px;margin:0 0 18px 0}
     .menu h1 a{color:inherit;text-decoration:none}
@@ -16,7 +16,7 @@
     .menu p.contact{font-size:13px;margin-top:22px}
     .content{flex:1;max-width:100%;overflow:auto}
     .prose{max-width:900px;padding-right:20px}
-    .media{width:100%;margin:18px 0}
+    .media{max-width:680px;margin:18px auto}
     img{width:100%;height:auto;display:block}
     .top-link{position:fixed;right:18px;bottom:18px;background:#fff;border:1px solid #ddd;padding:8px;border-radius:999px}
     @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%}.top-link{display:none}}
