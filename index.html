@@ -55,6 +55,8 @@
       <div class="arrow right" id="next" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
+      <!-- Fallback static first slide (visible if JS fails) -->
+      <img class="slide active" src="wp-content/uploads/2025/07/Una-rosa-es-una-rosa.gif" alt="Rubedox: Una rosa es una rosa">
     </section>
     <div class="caption-wrap"><div class="caption" id="caption"></div></div>
   </div>
@@ -85,14 +87,32 @@
     const slideshow = document.querySelector('.slideshow');
     let idx = 0, slides = [];
     function createSlides(){
-      images.forEach((src,i)=>{
-        const img = document.createElement('img');
-        img.src = src; img.alt = captions[i]||''; img.className='slide';
-        if(i===0) img.classList.add('active');
-        slideshow.insertBefore(img, document.getElementById('prev'));
-        slides.push(img);
-      });
-      updateCaption();
+      console.log('createSlides start');
+      try{
+        // if slides already present in DOM (fallback), use them
+        const existing = Array.from(slideshow.querySelectorAll('.slide'));
+        if(existing.length){
+          slides = existing;
+          slides.forEach((img,i)=>{ if(i===0) img.classList.add('active'); img.addEventListener('error', ()=> console.warn('Existing slide failed to load:', img.src)); img.addEventListener('load', ()=> console.log('Existing slide loaded:', img.src)); });
+          updateCaption();
+          return;
+        }
+
+        images.forEach((src,i)=>{
+          const img = document.createElement('img');
+          img.src = src; img.alt = captions[i]||''; img.className='slide';
+          if(i===0) img.classList.add('active');
+          const prevEl = slideshow.querySelector('#prev');
+          if(prevEl && prevEl.parentNode === slideshow) slideshow.insertBefore(img, prevEl);
+          else slideshow.appendChild(img);
+          img.addEventListener('error', ()=> console.warn('Slide failed to load:', src));
+          img.addEventListener('load', ()=> console.log('Slide loaded:', src));
+          slides.push(img);
+        });
+        updateCaption();
+      }catch(err){
+        console.error('createSlides error', err);
+      }
     }
     function show(n){
       slides.forEach(s=>s.classList.remove('active'));
