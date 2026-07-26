@@ -1,17 +1,582 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<title>José Ramírez Guaigua - Artista Multimedia</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>José Ramírez Guaigua — Artista de Nuevos Medios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0e12;
+            --surface-color: #16181f;
+            --surface-border: #262936;
+            --text-main: #e6e8ee;
+            --text-muted: #8b92a5;
+            --accent-color: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.25);
+            --tag-bg: rgba(99, 102, 241, 0.1);
+            --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background grid effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Layout */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: rgba(13, 14, 18, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--surface-border);
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-main);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* Hero / Bio Section */
+        .hero {
+            margin-bottom: 4rem;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background: var(--tag-bg);
+            color: var(--accent-color);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+        }
+
+        /* Navigation Filter Tabs */
+        .filter-bar {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--surface-border);
+            color: var(--text-muted);
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--text-main);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Portfolio Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            background-color: #1a1c24;
+            overflow: hidden;
+        }
+
+        .card-img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e2029 0%, #111218 100%);
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--surface-border);
+            position: relative;
+        }
+
+        .card-img-placeholder::after {
+            content: "</>";
+            font-size: 2rem;
+            opacity: 0.15;
+            position: absolute;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-category {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1rem;
+        }
+
+        /* Footer / Contact */
+        footer {
+            margin-top: 6rem;
+            border-top: 1px solid var(--surface-border);
+            padding: 3rem 1.5rem;
+            background: rgba(13, 14, 18, 0.9);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .contact-info p {
+            color: var(--text-muted);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--surface-border);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .social-links a:hover {
+            border-color: var(--accent-color);
+            background: var(--tag-bg);
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
-<body style="background-color:black;">
+<body>
 
-<center><img src="/images/en_const.gif" style="height:auto;
-        max-width:100%;
-        border:none;
-        display:block;"
-        alt="En construcción / under construction"></center>
+    <header>
+        <a href="#" class="logo">
+            <span class="logo-dot"></span>
+            José Ramírez Guaigua
+        </a>
+        <nav>
+            <a href="#obras">Obras</a>
+            <a href="#acerca">Acerca</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
 
+    <main class="container">
 
+        <!-- Hero Section -->
+        <section class="hero" id="acerca">
+            <h1>José Ramírez Guaigua</h1>
+            <p>
+                Artista contemporáneo especializado en Nuevos Medios (Arte + Tecnología), Videoarte, Arte Generativo, Net-Art e Instalaciones Interactivas. Exploro los cruces entre política, tecnología, memoria e interfaces visuales.
+            </p>
+            <div class="tags">
+                <span class="tag">Arte Generativo</span>
+                <span class="tag">Net-Art</span>
+                <span class="tag">Videoarte</span>
+                <span class="tag">p5.js</span>
+                <span class="tag">Contravisualidad</span>
+                <span class="tag">Investigación Visual</span>
+            </div>
+        </section>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar" id="obras">
+            <button class="filter-btn active" onclick="filterProjects('all')">Todas las Obras</button>
+            <button class="filter-btn" onclick="filterProjects('generativo')">Arte Generativo (2023 - Pres.)</button>
+            <button class="filter-btn" onclick="filterProjects('rubedox')">Proyecto Rubedox (2021 - 2023)</button>
+            <button class="filter-btn" onclick="filterProjects('netart')">Sociedades Americanas 2.0 (2020 - ∞)</button>
+            <button class="filter-btn" onclick="filterProjects('contravisualidad')">Contravisualidad (2010 - 2019)</button>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="grid" id="portfolio-grid">
+
+            <!-- Poema 1 -->
+            <div class="card" data-category="generativo">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Generador Poético ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Arte Generativo</div>
+                    <h2 class="card-title">Poema 1 (2024)</h2>
+                    <p class="card-desc">Generador de poesía visual interactiva. Un experimento con tipografía responsiva y sintaxis computacional dinámicamente mutante.</p>
+                    <div class="card-meta">
+                        <span>Interactiva</span>
+                        <span>2024</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Argos Panoptes Online -->
+            <div class="card" data-category="generativo">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Argos Panoptes ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Arte Generativo</div>
+                    <h2 class="card-title">Argos Panoptes (2023)</h2>
+                    <p class="card-desc">Obra de arte generativa-interactiva que examina los aparatos de vigilancia moderna, percepción algorítmica y control distribuido.</p>
+                    <div class="card-meta">
+                        <span>Generativa</span>
+                        <span>2023</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Infinitas formas del Infinito -->
+            <div class="card" data-category="generativo">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Formas del Infinito ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Arte Generativo</div>
+                    <h2 class="card-title">Infinitas Formas del Infinito</h2>
+                    <p class="card-desc">Serie de esculturas digitales en código en constante variación geométrica y algorítmica.</p>
+                    <div class="card-meta">
+                        <span>Código / Web</span>
+                        <span>2023</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rubedox: Una rosa es una rosa -->
+            <div class="card" data-category="rubedox">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Rubedox: Rosa ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Proyecto Rubedox</div>
+                    <h2 class="card-title">Rubedox: Una rosa es una rosa (2022)</h2>
+                    <p class="card-desc">De la serie Movimiento Perpetuo. Exploración sobre los ciclos simbólicos de transformación y materia digital.</p>
+                    <div class="card-meta">
+                        <span>Movimiento Perpetuo</span>
+                        <span>2022</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rubedox: Los Arcanos Perdidos -->
+            <div class="card" data-category="rubedox">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Los Arcanos Perdidos ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Proyecto Rubedox</div>
+                    <h2 class="card-title">Rubedox: Los Arcanos Perdidos (2023)</h2>
+                    <p class="card-desc">Apropiación alquímica e iconográfica de la simbología hermética aplicada a la imagen de síntesis y sketchbooks digitales.</p>
+                    <div class="card-meta">
+                        <span>Digital / Mixta</span>
+                        <span>2023</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sociedades Americanas 2.0 -->
+            <div class="card" data-category="netart">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Sociedades Americanas ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Net-Art</div>
+                    <h2 class="card-title">Sociedades Americanas 2.0 (2020)</h2>
+                    <p class="card-desc">Proyecto de net-art que reinterpreta y descentraliza el pensamiento sociopolítico de Simón Rodríguez en la era hipertextual.</p>
+                    <div class="card-meta">
+                        <span>Net-Art</span>
+                        <span>2020 - ∞</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nuevas Vistas de la Naturaleza -->
+            <div class="card" data-category="contravisualidad">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Nuevas Vistas ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Contravisualidad</div>
+                    <h2 class="card-title">Nuevas Vistas de la Naturaleza (2019)</h2>
+                    <p class="card-desc">Investigación visual sobre la reconfiguración del paisaje, la minería de datos y el extractivismo mediático.</p>
+                    <div class="card-meta">
+                        <span>Instalación / Video</span>
+                        <span>2019</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Noticias de Ninguna Parte -->
+            <div class="card" data-category="contravisualidad">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Noticias de Ninguna Parte ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Contravisualidad</div>
+                    <h2 class="card-title">Noticias de Ninguna Parte (2019)</h2>
+                    <p class="card-desc">Videoinstalación y archivo de imágenes perdidas sobre utopías fallidas y distopías territoriales contemporáneas.</p>
+                    <div class="card-meta">
+                        <span>Videoinstalación</span>
+                        <span>2019</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ecos -->
+            <div class="card" data-category="contravisualidad">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Ecos ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Contravisualidad</div>
+                    <h2 class="card-title">Ecos (2016)</h2>
+                    <p class="card-desc">De la caída de Colón en el Golfo Triste a la caída de Sabino Romero en la Sierra de Perijá. Un contrapunteo de historia y archivo visual.</p>
+                    <div class="card-meta">
+                        <span>Ensayo Visual</span>
+                        <span>2016</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- La Performance Necesaria -->
+            <div class="card" data-category="contravisualidad">
+                <div class="card-img-wrapper">
+                    <div class="card-img-placeholder">[ Performance Necesaria ]</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Contravisualidad</div>
+                    <h2 class="card-title">La Performance Necesaria (2011)</h2>
+                    <p class="card-desc">Registro, acción corporal y tensión entre el cuerpo político y el dispositivo tecnológico de captura.</p>
+                    <div class="card-meta">
+                        <span>Performance / Video</span>
+                        <span>2011</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer / Contact -->
+    <footer id="contacto">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>José Ramírez Guaigua</h3>
+                <p>Contacto: <a href="mailto:jose.ramirez.guaigua@gmail.com" style="color: var(--accent-color); text-decoration: none;">jose.ramirez.guaigua@gmail.com</a></p>
+            </div>
+            <div class="social-links">
+                <a href="mailto:jose.ramirez.guaigua@gmail.com">Email</a>
+                <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Filter Script -->
+    <script>
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
