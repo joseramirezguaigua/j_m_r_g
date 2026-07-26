@@ -4,36 +4,67 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Proyecto Rubedox — José Ramírez Guaigua</title>
+  
+  <!-- Cargamos Inter con pesos explícitos desde Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root{--left-w:36%;--gap:40px}
-    html,body{height:100%;margin:0;font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;color:#000;font-weight:400}
+    
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color:#111111;
+      background:#fff;
+      font-weight:500; /* Peso Medium para evitar trazos ultra delgados */
+      line-height:1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
     .wrap{display:flex;gap:var(--gap);padding:40px;box-sizing:border-box;align-items:flex-start;max-width:1300px;margin:0 auto}
     .menu{width:var(--left-w);min-width:260px;position:sticky;top:40px;align-self:flex-start;max-height:calc(100vh - 80px);overflow:auto;padding-right:8px}
-    .menu h1{font-size:28px;margin:0 0 18px 0;font-weight:700}
+    
+    .menu h1{font-size:28px;margin:0 0 18px 0;font-weight:700;color:#000000;}
     .menu h1 a{color:inherit;text-decoration:none}
-    .menu h2{font-size:18px;margin:18px 0 6px 0;font-weight:700}
-    .menu a{display:block;color:#000;text-decoration:underline;margin:8px 0;font-size:16px}
-    .menu p.contact{font-size:13px;margin-top:22px}
+    .menu h2{font-size:18px;margin:18px 0 6px 0;font-weight:700;color:#000000;}
+    
+    .menu a{display:block;color:#000000;text-decoration:underline;margin:8px 0;font-size:16px;font-weight:500;}
+    .menu p.contact{font-size:14px;margin-top:22px;color:#000000;font-weight:600;}
+    
     .menu-social{display:inline-flex;align-items:center;justify-content:center;margin-top:14px;color:#000;text-decoration:none}
     .menu-social svg{width:24px;height:24px;display:block;fill:currentColor}
     .menu-social:hover{opacity:.75}
+    
     .screen-reader-text{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0;margin:-1px}
-    .back-to-top{position:fixed;right:18px;bottom:18px;width:40px;height:40px;border-radius:999px;border:1px solid #ddd;background:#fff;color:#000;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.08);font-size:20px;line-height:1;z-index:20}
+    .back-to-top{position:fixed;right:18px;bottom:18px;width:40px;height:40px;border-radius:999px;border:1px solid #ddd;background:#fff;color:#000;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.08);font-size:20px;line-height:1;z-index:20;font-weight:700;}
     .back-to-top:hover{background:#000;color:#fff}
+    
     .content{flex:1;max-width:100%;overflow:auto}
+    .content h2{margin-top:0;font-size:28px;font-weight:700;color:#000000;}
+    .content h3{font-size:22px;margin-top:36px;font-weight:700;color:#000000;}
+    .content h4{font-size:18px;margin-top:24px;font-weight:600;color:#000000;}
+    
     .prose{max-width:900px;padding-right:20px}
+    .prose p{color:#111111;font-weight:500;font-size:16px;margin:16px 0;}
+    .prose strong{font-weight:700;color:#000000;}
+    .prose em{font-style:italic;}
+    
     .media{max-width:680px;margin:18px auto}
-    img{width:100%;height:auto;display:block}
-    .top-link{position:fixed;right:18px;bottom:18px;background:#fff;border:1px solid #ddd;padding:8px;border-radius:999px}
-    @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%}.top-link{display:none}}
-      .menu-toggle { display:none; align-items:center; justify-content:center; width:32px; height:32px; border:none; background:transparent; padding:0; margin:0 0 18px 0; cursor:pointer; }
+    img{width:100%;height:auto;display:block;border-radius:8px}
+    
+    .menu-toggle { display:none; align-items:center; justify-content:center; width:32px; height:32px; border:none; background:transparent; padding:0; margin:0 0 18px 0; cursor:pointer; }
     .menu-toggle .bar { display:block; width:22px; height:2px; background:#000; margin:4px 0; transition:transform .2s ease, opacity .2s ease; }
     .menu-toggle.open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .menu-toggle.open .bar:nth-child(2) { opacity:0; }
     .menu-toggle.open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
     .menu { transition: max-height .2s ease, opacity .2s ease; }
     
-/* internal mobile hamburger menu */
+    /* internal mobile hamburger menu */
     @media(max-width:880px) {
       .wrap { flex-direction:column; padding-top:120px; }
       .menu-toggle { display:flex; flex-direction:column; align-items:center; justify-content:center; width:32px; height:32px; border:none; background:transparent; padding:0; margin:0 0 18px 0; cursor:pointer; }
@@ -67,8 +98,8 @@
       <a href="../rubedox/index.html#arcanos">Los Arcanos perdidos</a>
       <a href="../rubedox/index.html#sketch">Los sketchbooks</a>
       <h2>Otros proyectos</h2>
-      <a href="../sociedades-americanas/index.html">Sociedades Americanas 2.0</a>
-      <a href="../ejercicios-de-contravisualidad-2010-2019/index.html">Ejercicios de Contravisualidad</a>
+      <a href="../sociedades-americanas/index.html">Sociedades Americanas 2.0 (2020-∞)</a>
+      <a href="../ejercicios-de-contravisualidad-2010-2019/index.html">Ejercicios de Contravisualidad (2010-2019)</a>
       <a href="../la-performance-necesaria-2011/index.html">La Performance Necesaria (2011)</a>
       <p class="contact"><strong>Contacto:</strong> jose.ramirez.guaigua@gmail.com</p>
       <a class="menu-social" href="https://www.instagram.com/joseramirezguaigua/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
