@@ -7,8 +7,9 @@
   <style>
     :root{--left-w:32%;--gap:28px}
     html,body{min-height:100%;margin:0;font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;color:#000}
-    .wrap{display:flex;gap:var(--gap);padding:30px;box-sizing:border-box;max-width:1300px;margin:0 auto}
-    .menu{width:var(--left-w);min-width:260px}
+    .wrap{display:flex;gap:var(--gap);padding:40px;box-sizing:border-box;max-width:1300px;margin:0 auto;align-items:flex-start}
+    .menu{width:var(--left-w);min-width:260px;position:sticky;top:40px;align-self:flex-start;max-height:calc(100vh - 80px);overflow:auto;padding-right:8px}
+    .menu h1 a{color:inherit;text-decoration:none}
     .menu h1{font-size:28px;margin:0 0 18px 0}
     .menu h2{font-size:18px;margin:18px 0 6px 0}
     .menu a{display:block;color:#000;text-decoration:underline;margin:8px 0;font-size:16px}
@@ -19,13 +20,13 @@
     .media{max-width:320px;margin:18px auto;border-radius:26px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08)}
     img{width:100%;height:auto;display:block;border-radius:26px}
     ul{margin:0 0 20px 20px}
-    @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%}.media{max-width:280px}}
+    @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%;position:static;max-height:none;overflow:visible}.media{max-width:280px}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <nav class="menu">
-      <h1>José Ramírez Guaigua</h1>
+      <h1><a href="../index.html">José Ramírez Guaigua</a></h1>
       <a href="../bio/index.html">Bio</a>
       <h2>Arte Generativo (2023 - presente)</h2>
       <a href="../arte-generativo/index.html">Acerca del arte generativo</a>

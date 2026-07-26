@@ -7,9 +7,10 @@
   <style>
     :root{--left-w:36%;--gap:40px}
     html,body{height:100%;margin:0;font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;color:#000}
-    .wrap{display:flex;gap:var(--gap);padding:40px;box-sizing:border-box}
-    .menu{width:var(--left-w);min-width:260px}
+    .wrap{display:flex;gap:var(--gap);padding:40px;box-sizing:border-box;max-width:1300px;margin:0 auto;align-items:flex-start}
+    .menu{width:var(--left-w);min-width:260px;position:sticky;top:40px;align-self:flex-start;max-height:calc(100vh - 80px);overflow:auto;padding-right:8px}
     .menu h1{font-size:28px;margin:0 0 18px 0}
+    .menu h1 a{color:inherit;text-decoration:none}
     .menu h2{font-size:18px;margin:18px 0 6px 0}
     .menu a{display:block;color:#000;text-decoration:underline;margin:8px 0;font-size:16px}
     .menu p.contact{font-size:13px;margin-top:22px}
@@ -18,13 +19,13 @@
     .prose{max-width:900px;padding-right:20px}
     .embed{width:100%;aspect-ratio:1/1;overflow:hidden;margin:18px 0}
     iframe{width:100%;height:100%;border:0;display:block}
-    @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%}}
+    @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%;position:static;max-height:none;overflow:visible;padding-right:0}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <nav class="menu">
-      <h1>José Ramírez Guaigua</h1>
+      <h1><a href="../index.html">José Ramírez Guaigua</a></h1>
       <a href="../bio/index.html">Bio</a>
       <h2>Arte Generativo (2023 - presente)</h2>
       <a href="../arte-generativo/index.html">Acerca del arte generativo</a>
@@ -47,21 +48,29 @@
     <main class="content" role="main">
       <article class="prose">
         <h2 id="top">Arte Generativo (2023 - presente)</h2>
-        <p>Desde el 2023 he estado desarrollando obras de arte generativo e interactivo creados desde cero usando lenguajes de programación como html, javascript y la librería de recursos de código creativo <a href="https://p5js.org/" target="_blank" rel="noopener">p5.js</a>. En esta serie de proyectos, diseñé y programé algoritmos que generaban una cantidad potencialmente infinita de variaciones o iteraciones en base a un diseño visual principal o matriz, bajo los parámetros de un “azar controlado”.</p>
+        <p>Desde el 2023 he estado desarrollando obras de arte generativo e interactivo creados desde cero usando lenguajes de programación como html, javascript y la librería de recursos de código creativo <a href="https://p5js.org/" target="_blank" rel="noopener">p5.js</a>.</p>
+        <p>En esta serie de proyectos, diseñé y programé algoritmos que generaban una cantidad potencialmente infinita de variaciones o iteraciones en base a un diseño visual principal o matriz, bajo los parámetros de un “azar controlado”. Utilizando los recursos y elementos básicos de expresión (línea, punto, color, textura, etc) a través de fórmulas matemáticas que me permitieron a su vez simular comportamientos orgánicos y fenómenos físicos presentes en la naturaleza y otros seres vivos, (como el movimiento ondular, la dilatación de las pupilas, o el recorrido browniano, por ejemplo) agregando en muchas de estas obras la posibilidad de interacción por parte del usuario / espectador a través del cursor de su ordenador o la pantalla táctil de su smartphone, tablet o dispositivo.</p>
+        <p>De estas experiencias surgieron los siguientes proyectos / obras generativas:</p>
 
         <h3 id="generador">Generador de Poesía Visual Interactiva 1.0 [GPVI 1.0] (2024)</h3>
-        <p>Pieza interactiva programada en <a href="https://p5js.org/" target="_blank" rel="noopener">p5.js</a> que funciona como dispositivo productor de poemas visuales interactivos. El usuario/participante puede clickear en la obra y recorrer el “lienzo” digital con el cursor produciendo acciones y reacciones que van modificando el aspecto formal del mismo.</p>
+        <p>Pieza interactiva programada en <a href="https://p5js.org/" target="_blank" rel="noopener">p5.js</a> que funciona como dispositivo productor de poemas visuales interactivos. El usuario / participante puede clickear en la obra y recorrer el “lienzo” digital con el cursor produciendo acciones y reacciones que van modificando el aspecto formal del mismo.</p>
+        <p><strong>Poema Interactivo 1: “Decentraliza”</strong></p>
+        <p><em>(Para interactuar con la obra, puede usar el cursor, los movimientos del mouse y hacer click sobre el lienzo digital).</em></p>
         <div class="embed"><iframe src="https://cache.teia.rocks/ipfs/bafybeidb3vut3rvzvwoxit2qqg6r26obhe54jzeu7jskls4hmjfet2wpsq/?creator=tz1VTStnDKBJNsADuQtH5MrSNhTd3k6oPJK4&viewer=&objkt=817985" loading="lazy" allowfullscreen></iframe></div>
 
         <h3 id="infinitas">Infinitas formas del Infinito (2023)</h3>
-        <p>Obra de arte generativo de 100 iteraciones programado en javascript con la librería p5.js. Una composición de líneas de colores que comienzan a moverse lentamente, evocando los efectos cinéticos de los fisicromías.</p>
+        <p>Obra de arte generativo de 100 iteraciones programado en javascript con la librería <a href="https://p5js.org/" target="_blank" rel="noopener">p5.js</a>.</p>
+        <p>Una composición de líneas de colores que comienzan a moverse lentamente, evocando los efectos cinéticos de los <em>fisicromías</em> (término acuñado por el artista cinético venezolano Carlos Cruz-Diez), donde el movimiento de la pieza genera colores aditivos, reflectantes y sustractivos, recreando “infinitas formas del Infinito (∞)”. El resultado son animaciones hipnóticas que funcionan como una herramienta meditativa para el espectador.</p>
+        <p>Completamente programada en p5.js para generar hasta 100 iteraciones en base al modelo matriz. Obra aún expuesta y disponible para interactuar en la galería online especializada en arte generativo <a href="https://www.fxhash.xyz/project/infinity-infinite-shapes-of-infinity-infinity" target="_blank" rel="noopener">Fx Hash</a>.</p>
+        <p>Algunas iteraciones a continuación:</p>
         <div class="embed"><iframe src="https://gateway.fxhash2.xyz/ipfs/QmTGefKdAaBWqcSaFUNyE8LR9fKsKFGdRgT1Ex2pCVxRGa/?cid=ipfs%3A%2F%2FQmTGefKdAaBWqcSaFUNyE8LR9fKsKFGdRgT1Ex2pCVxRGa&fxhash=ooMhGVu3B79sDBg3BGkcLiVdE1XcaVnGqaU338AYCMtbsNYqqiw&fxminter=&fxiteration=1&fxcontext=standalone&fxchain=TEZOS" loading="lazy" allowfullscreen></iframe></div>
 
-        <h3 id="argos">Argos Panoptes Online</h3>
-        <p>Proyectos y experimentos expuestos en galerías online y plataformas especializadas.</p>
-        <div class="embed"><iframe src="https://gateway.fxhash2.xyz/ipfs/QmTGefKdAaBWqcSaFUNyE8LR9fKsKFGdRgT1Ex2pCVxRGa/?cid=ipfs%3A%2F%2FQmTGefKdAaBWqcSaFUNyE8LR9fKsKFGdRgT1Ex2pCVxRGa&fxhash=oo5wp9b3vZHSkYCgoqpoSwx1GGfjVfRZ3dNf2a7iy5S39gkKN7m&fxminter=&fxiteration=1&fxcontext=standalone&fxchain=TEZOS" loading="lazy" allowfullscreen></iframe></div>
-
-        <p>Más iteraciones y enlaces a colecciones disponibles en plataformas como FxHash y Teia.</p>
+        <h3 id="argos">Argos Panoptes Online (2023)</h3>
+        <p>Animación generativa interactiva programada para generar 64 iteraciones. Fue programada en javascript usando la librería <a href="https://q5js.org/home/" target="_blank" rel="noopener">q5x.js</a> (una versión ultra simplificada de p5.js, lo que hace al archivo matriz más liviano) y publicada en la plataforma de criptoarte y arte generativo <a href="https://generative.xyz/generative/1003353" target="_blank" rel="noopener">Generative.xyz</a>. Cada iteración está alojada en la cadena de bloques de Bitcoin, lo que la hace prácticamente imborrable de la red internet. Fue un experimento que exploró las posibilidades de preservación de obras de arte digital utilizando la tecnología de cadena de bloques, <a href="https://ordinals.com/inscription/1118348" target="_blank" rel="noopener">inscribiendo el código fuente en la blockchain de Btc</a>. Considero esta, una genuina obra de Criptoarte. Solo 15 Kb de código.</p>
+        <p>Ojos que cobran vida y vivirán para siempre en la blockchain, como testigos de la revolución tecnológica definitiva.</p>
+        <p><em>(Para interactuar con la obra, hacer click y arrastrar sobre el “ojo”)</em></p>
+        <div class="embed"><iframe src="https://ordinals.com/content/7e8b45a717188d5b0007ca4809213c22ed9b350de89461a6574a2ca03d035722i0" loading="lazy" allowfullscreen></iframe></div>
+        <p>Otras iteraciones:</p>
       </article>
     </main>
   </div>

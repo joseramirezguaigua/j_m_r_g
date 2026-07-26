@@ -7,8 +7,9 @@
   <style>
     :root{--left-w:36%;--gap:40px}
     html,body{height:100%;margin:0;font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;color:#000}
-    .wrap{display:flex;gap:var(--gap);padding:40px;box-sizing:border-box}
-    .menu{width:var(--left-w);min-width:260px}
+    .wrap{display:flex;gap:var(--gap);padding:40px;box-sizing:border-box;align-items:flex-start}
+    .menu{width:var(--left-w);min-width:260px;position:sticky;top:40px;align-self:flex-start;max-height:calc(100vh - 80px);overflow:auto;padding-right:8px}
+    .menu h1 a{color:inherit;text-decoration:none}
     .menu h1{font-size:28px;margin:0 0 18px 0}
     .menu h2{font-size:18px;margin:18px 0 6px 0}
     .menu a{display:block;color:#000;text-decoration:underline;margin:8px 0;font-size:16px}
@@ -16,7 +17,7 @@
     .content{flex:1;max-width:100%;overflow:auto}
     .content h2{margin-top:0}
     .prose{max-width:900px;padding-right:20px}
-    @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%}}
+    @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%;position:static;max-height:none;overflow:visible}}
   </style>
 </head>
 <body>
