@@ -21,12 +21,34 @@
     img{width:100%;height:auto;display:block;border-radius:26px}
     ul{margin:0 0 20px 20px}
     @media(max-width:880px){.wrap{flex-direction:column}.menu{width:100%;position:static;max-height:none;overflow:visible}.media{max-width:280px}}
-  </style>
+      .menu-toggle { display:none; align-items:center; justify-content:center; width:32px; height:32px; border:none; background:transparent; padding:0; margin:0 0 18px 0; cursor:pointer; }
+    .menu-toggle .bar { display:block; width:22px; height:2px; background:#000; margin:4px 0; transition:transform .2s ease, opacity .2s ease; }
+    .menu-toggle.open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .menu-toggle.open .bar:nth-child(2) { opacity:0; }
+    .menu-toggle.open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    .menu { transition: max-height .2s ease, opacity .2s ease; }
+    
+/* internal mobile hamburger menu */
+    @media(max-width:880px) {
+      .wrap { flex-direction:column; padding-top:120px; }
+      .menu-toggle { display:flex; flex-direction:column; align-items:center; justify-content:center; width:32px; height:32px; border:none; background:transparent; padding:0; margin:0 0 18px 0; cursor:pointer; }
+      .menu-toggle .bar { display:block; width:22px; height:2px; background:#000; margin:4px 0; transition:transform .2s ease, opacity .2s ease; }
+      .menu-toggle.open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+      .menu-toggle.open .bar:nth-child(2) { opacity:0; }
+      .menu-toggle.open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+      .menu { transition: max-height .2s ease, opacity .2s ease; position:fixed; top:0; left:0; right:0; width:100%; background:#fff; z-index:999; padding:18px; border-bottom:1px solid #e8e8e8; overflow:hidden; }
+      .menu > *:not(.menu-toggle):not(h1) { display:none; }
+      .menu.open > *:not(.menu-toggle):not(h1) { display:block; }
+      .menu h1 { margin-bottom:12px; }
+      .menu h2, .menu a, .menu p.contact { margin:10px 0; font-size:15px; }
+    }
+</style>
 </head>
 <body>
   <div class="wrap">
-    <nav class="menu">
+    <nav class="menu" id="main-menu">
       <h1><a href="../index.html">José Ramírez Guaigua</a></h1>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
       <a href="../bio/index.html">Bio</a>
       <h2>Arte Generativo (2023 - presente)</h2>
       <a href="../arte-generativo/index.html">Acerca del arte generativo</a>
@@ -106,5 +128,16 @@
       </article>
     </main>
   </div>
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const internalMenu = document.getElementById('main-menu');
+    if (menuToggle && internalMenu) {
+      menuToggle.addEventListener('click', () => {
+        const open = internalMenu.classList.toggle('open');
+        menuToggle.classList.toggle('open', open);
+        menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  </script>
 </body>
 </html>

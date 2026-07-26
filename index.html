@@ -6,22 +6,26 @@
   <title>José Ramírez Guaigua — Portafolio</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pahxmX0mA3O0nKfN6CrNAXEFuKqUuznErpLz9BB4XHq7Sh5rL0tWzS3B7Kq1+qwUuVCEH1yrKuWO4HzjKZOxuw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    :root { --left-w:28%; --gap:20px; --max-img-h:70vh; }
+    :root { --left-w:28%; --gap:20px; --slide-size:500px; }
     html, body { min-height:100%; margin:0; font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color:#000; background:#fff; }
     .wrap { display:flex; gap:var(--gap); padding:28px; box-sizing:border-box; max-width:1200px; margin:0 auto; align-items:flex-start; }
     .menu { width:var(--left-w); min-width:240px; position:sticky; top:28px; align-self:flex-start; max-height:calc(100vh - 56px); overflow:auto; padding-right:8px; }
-    .menu h1 { font-size:28px; margin:0 0 18px 0; }
+    .menu h1, .mobile-title h1, .menu h2 { font-size:18px; margin:16px 0 6px 0; }
+    .menu h1 { font-weight:inherit; }
     .menu h1 a { color:inherit; text-decoration:none; }
-    .menu h2 { font-size:18px; margin:16px 0 6px 0; }
     .menu a { display:block; color:#000; text-decoration:underline; margin:6px 0; font-size:15px; }
     .menu p.contact { font-size:13px; margin-top:22px; }
-    .menu-social { display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; margin-top:18px; border:1px solid #000; border-radius:50%; color:#fff; text-decoration:none; font-size:16px; background:#000; transition:all .2s ease; }
-    .menu-social:hover { background:#fff; color:#000; border-color:#000; }
+    .menu-social { display:inline-flex; align-items:center; justify-content:center; margin-top:18px; color:#000; text-decoration:none; background:transparent; transition:all .2s ease; }
+    .menu-social:hover { background:transparent; }
+    .menu-social img { width:25px; height:25px; display:block; }
     .menu-social .screen-reader-text { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; padding:0; margin:-1px; }
-    .slideshow { flex:1; position:relative; min-height:520px; max-height:var(--max-img-h); background:#f7f7f7; border:1px solid #e8e8e8; border-radius:18px; overflow:hidden; display:flex; flex-direction:column; justify-content:center; }
-    .slides { position:relative; width:100%; height:100%; min-height:320px; }
-    .slide { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .4s ease; }
-    .slide.active { opacity:1; z-index:1; }
+    .mobile-title { display:none; padding:0 28px 16px; }
+    .mobile-title h1 { font-size:32px; margin:0; }
+    .slideshow { flex:1; position:relative; min-height:var(--slide-size); max-height:none; width:100%; max-width:var(--slide-size); background:#f7f7f7; border:1px solid #e8e8e8; border-radius:18px; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-start; align-items:center; }
+    .slides { position:relative; width:var(--slide-size); max-width:100%; aspect-ratio:1 / 1; display:flex; align-items:center; justify-content:center; }
+    .slide { position:absolute; inset:0; opacity:0; transition:opacity .5s ease; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+    .slide.active { opacity:1; pointer-events:auto; }
+    .slide img { display:block; width:100%; height:100%; object-fit:contain; }
     .caption-wrap { width:100%; text-align:center; padding:18px 12px 22px; }
     .caption { font-style:italic; color:#555; display:inline-block; max-width:100%; line-height:1.4; }
     .arrow { position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.95); border:1px solid #ddd; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 12px 30px rgba(0,0,0,0.08); transition:background .2s ease, color .2s ease; }
@@ -30,13 +34,15 @@
     .arrow:hover { background:#000; color:#fff; }
     .arrow svg { width:18px; height:18px; }
     @media(max-width:1100px) { .wrap { gap:16px; } }
-    @media(max-width:880px) { .wrap { flex-direction:column; } .menu { width:100%; position:static; max-height:none; overflow:visible; } .arrow { display:none; } }
+    @media(max-width:960px) { .mobile-title { display:block; } .menu h1 { display:none; } .wrap { flex-direction:column; } .slideshow { order:1; width:100%; min-height:auto; max-width:100%; border-radius:0; } .slides { width:100%; max-width:100%; } .menu { order:2; width:100%; position:static; max-height:none; overflow:visible; padding-right:0; } }
+    @media(max-width:880px) { .arrow { display:none; } }
   </style>
 </head>
 <body>
+  <div class="mobile-title"><h1>José Ramírez Guaigua</h1></div>
   <div class="wrap">
     <nav class="menu">
-      <h1><a href="index.html">José Ramírez Guaigua</a></h1>
+      <h1>José Ramírez Guaigua</h1>
       <a href="bio/index.html">Bio</a>
       <h2>Arte Generativo (2023 - presente)</h2>
       <a href="arte-generativo/index.html">Acerca del arte generativo</a>
@@ -54,19 +60,17 @@
       <a href="ejercicios-de-contravisualidad-2010-2019/index.html">Ejercicios de Contravisualidad</a>
       <a href="la-performance-necesaria-2011/index.html">La Performance Necesaria (2011)</a>
       <p class="contact"><strong>Contacto:</strong> jose.ramirez.guaigua@gmail.com</p>
-      <a class="menu-social" href="https://www.instagram.com/joseramirezguaigua/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram" aria-hidden="true"></i><span class="screen-reader-text">Instagram</span></a>
+      <a class="menu-social" href="https://www.instagram.com/joseramirezguaigua/" target="_blank" rel="noopener noreferrer"><img src="free-instagram-logo-icon-3497-thumb.png" alt="Instagram" /><span class="screen-reader-text">Instagram</span></a>
     </nav>
     <section class="slideshow" aria-label="Galería">
       <div class="slides">
-        <img src="wp-content/uploads/2025/07/Una-rosa-es-una-rosa.gif" class="slide active" alt="Rubedox: Una rosa es una rosa (2022)" />
-        <img src="wp-content/uploads/2025/07/Argos_Panoptes.gif" class="slide" alt="Argos Panoptes" />
-        <img src="wp-content/uploads/2025/07/2.-Decentralized.gif" class="slide" alt="Poema 1 — Generador de poesía visual interactiva" />
-        <img src="wp-content/uploads/2025/07/3.-Infinite.gif" class="slide" alt="Infinito (excerpt)" />
-        <img src="wp-content/uploads/2025/07/5.-ARCANOS.gif" class="slide" alt="Los Arcanos Perdidos" />
-        <img src="wp-content/uploads/2025/07/6.-SA20_HOME.gif" class="slide" alt="Sociedades Americanas 2.0" />
-        <img src="wp-content/uploads/2025/07/Look-Inside.gif" class="slide" alt="Look Inside" />
-        <img src="wp-content/uploads/2025/07/Calix.gif" class="slide" alt="Calix" />
-        <img src="wp-content/uploads/2025/07/Sketchbooks_1_2.gif" class="slide" alt="Sketchbooks" />
+        <div class="slide active"><img src="wp-content/uploads/2025/07/A-Rose-Is-A-Rose.gif" alt="A Rose Is A Rose" /></div>
+        <div class="slide"><img src="wp-content/uploads/2025/07/2.-Decentralized.gif" alt="De-centralized / Poema visual interactivo" /></div>
+        <div class="slide"><img src="wp-content/uploads/2025/07/6.-SA20_HOME.gif" alt="Sociedades Americanas 2.0" /></div>
+        <div class="slide"><img src="wp-content/uploads/2025/07/5.-ARCANOS.gif" alt="Los Arcanos Perdidos" /></div>
+        <div class="slide"><img src="wp-content/uploads/2026/06/NuevaS_Vistas_5_SECexcerpt.gif" alt="Nuevas Vistas" /></div>
+        <div class="slide"><img src="wp-content/uploads/2026/06/NDNP-5_SEC_excerpt.gif" alt="Noticias de Ninguna Parte" /></div>
+        <div class="slide"><img src="wp-content/uploads/2026/06/Ecos_10_SEC_excerpt.gif" alt="Ecos" /></div>
       </div>
       <button class="arrow left" id="prev" aria-label="Anterior obra">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -74,40 +78,49 @@
       <button class="arrow right" id="next" aria-label="Siguiente obra">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <div class="caption-wrap"><div class="caption" id="caption">Rubedox: Una rosa es una rosa (2022) — De la serie Movimiento Perpetuo.</div></div>
+      <div class="caption-wrap"><div class="caption" id="caption">A Rose Is A Rose</div></div>
     </section>
   </div>
   <script>
     const captions = [
-      'Rubedox: Una rosa es una rosa (2022) — De la serie Movimiento Perpetuo.',
-      'Argos Panoptes',
-      'Poema 1 (2024) — Generador de poesía visual interactiva.',
-      'Infinito (excerpt)',
-      'Los Arcanos Perdidos',
+      'A Rose Is A Rose',
+      'De-centralized / Poema visual interactivo',
       'Sociedades Americanas 2.0',
-      'Look Inside',
-      'Calix',
-      'Sketchbooks'
+      'Los Arcanos Perdidos',
+      'Nuevas Vistas',
+      'Noticias de Ninguna Parte',
+      'Ecos'
     ];
     const slides = Array.from(document.querySelectorAll('.slide'));
     const captionEl = document.getElementById('caption');
     let currentIndex = 0;
+
+    function hideAllSlides() {
+      slides.forEach((slide) => {
+        slide.classList.remove('active');
+      });
+    }
+
     function showSlide(index) {
-      slides[currentIndex].classList.remove('active');
+      if (!slides.length) return;
+      hideAllSlides();
       currentIndex = (index + slides.length) % slides.length;
       slides[currentIndex].classList.add('active');
       captionEl.textContent = captions[currentIndex] || '';
     }
+
     document.getElementById('prev').addEventListener('click', () => showSlide(currentIndex - 1));
     document.getElementById('next').addEventListener('click', () => showSlide(currentIndex + 1));
     window.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowLeft') showSlide(currentIndex - 1);
       if (event.key === 'ArrowRight') showSlide(currentIndex + 1);
     });
-    let autoplay = setInterval(() => showSlide(currentIndex + 1), 7000);
+
+    showSlide(0);
+    let autoplay = setInterval(() => showSlide(currentIndex + 1), 3000);
     const slideshow = document.querySelector('.slideshow');
     slideshow.addEventListener('mouseenter', () => clearInterval(autoplay));
-    slideshow.addEventListener('mouseleave', () => autoplay = setInterval(() => showSlide(currentIndex + 1), 7000));
+    slideshow.addEventListener('mouseleave', () => autoplay = setInterval(() => showSlide(currentIndex + 1), 3000));
   </script>
 </body>
 </html>
