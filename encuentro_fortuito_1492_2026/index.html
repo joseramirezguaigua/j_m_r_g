@@ -30,13 +30,30 @@
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
+        const clock = new THREE.Clock();
+        let mixer;
 
         // 2. Controles de Cámara
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.06;
-        controls.listenToKeyEvents(window);
         controls.update();
+
+        window.addEventListener('keydown', (event) => {
+            const zoomInKeys = ['ArrowUp', 'ArrowRight'];
+            const zoomOutKeys = ['ArrowDown', 'ArrowLeft'];
+
+            if (zoomInKeys.includes(event.key)) {
+                controls.dollyIn(0.85);
+            } else if (zoomOutKeys.includes(event.key)) {
+                controls.dollyOut(0.85);
+            } else {
+                return;
+            }
+
+            event.preventDefault();
+            controls.update();
+        });
 
         // 3. Iluminación básica
         const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
@@ -61,6 +78,13 @@
             const model = gltf.scene;
             model.position.set(0, 0, 0);
             scene.add(model);
+
+            if (gltf.animations.length > 0) {
+                mixer = new THREE.AnimationMixer(model);
+                gltf.animations.forEach((clip) => {
+                    mixer.clipAction(clip).play();
+                });
+            }
 
             const bounds = new THREE.Box3().setFromObject(model);
             const size = bounds.getSize(new THREE.Vector3());
@@ -93,6 +117,8 @@
 
         function animate() {
             requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            if (mixer) mixer.update(delta);
             controls.update();
             renderer.render(scene, camera);
         }
