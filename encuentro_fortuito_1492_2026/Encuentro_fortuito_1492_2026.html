@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuentro Fortuito</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <!-- Importmap para Three.js y loaders -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com",
+                "three/addons/": "https://unpkg.com"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+        // 1. Escena, Cámara y Renderizador
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // 2. Controles de Cámara
+        const controls = new OrbitControls(camera, renderer.domElement);
+        camera.position.set(0, 1.6, 3);
+        controls.update();
+
+        // 3. Iluminación básica
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+        scene.add(ambientLight);
+
+        // 4. Cargar Entorno 360 (Imagen Equirectangular)
+        const textureLoader = new THREE.TextureLoader();
+        // Usar ruta relativa para que funcione en cualquier hosting (archivo en la misma carpeta)
+        textureLoader.load('./MAPA_MUNDI_.jpg', (texture) => {
+            texture.mapping = THREE.EquirectangularReflectionMapping;
+            texture.encoding = THREE.sRGBEncoding;
+            scene.background = texture;
+            scene.environment = texture; // Ilumina el modelo con el entorno 360
+        }, undefined, (err) => {
+            console.error('Error al cargar la imagen 360:', err);
+        });
+
+        // 5. Cargar Modelo GLB
+        const gltfLoader = new GLTFLoader();
+        // Usar ruta relativa para que funcione en cualquier hosting (archivo en la misma carpeta)
+        gltfLoader.load('./Encuentro_fortuito.glb', (gltf) => {
+            const model = gltf.scene;
+            model.position.set(0, 0, 0);
+            scene.add(model);
+        }, undefined, (error) => {
+            console.error('Error al cargar el GLB:', error);
+        });
+
+        // 6. Animación y Redimensionamiento
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
