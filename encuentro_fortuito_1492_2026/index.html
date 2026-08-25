@@ -26,33 +26,39 @@
 
         // 1. Escena, Cámara y Renderizador
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         const clock = new THREE.Clock();
         let mixer;
+        let desiredDistance = null;
 
         // 2. Controles de Cámara
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.06;
+        controls.enablePan = false;
+        controls.minPolarAngle = 0.35;
+        controls.maxPolarAngle = Math.PI - 0.35;
         controls.update();
+        controls.addEventListener('end', () => {
+            desiredDistance = camera.position.distanceTo(controls.target);
+        });
 
         window.addEventListener('keydown', (event) => {
-            const zoomInKeys = ['ArrowUp', 'ArrowRight'];
-            const zoomOutKeys = ['ArrowDown', 'ArrowLeft'];
-
-            if (zoomInKeys.includes(event.key)) {
-                controls.dollyIn(0.85);
-            } else if (zoomOutKeys.includes(event.key)) {
-                controls.dollyOut(0.85);
-            } else {
+            if (event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
                 return;
             }
 
             event.preventDefault();
-            controls.update();
+            const currentDistance = desiredDistance ?? camera.position.distanceTo(controls.target);
+            const zoomFactor = event.code === 'ArrowUp' ? 0.85 : 1 / 0.85;
+            desiredDistance = THREE.MathUtils.clamp(
+                currentDistance * zoomFactor,
+                controls.minDistance,
+                controls.maxDistance
+            );
         });
 
         // 3. Iluminación básica
@@ -102,6 +108,7 @@
             controls.target.copy(center);
             controls.minDistance = largestDimension * 0.15;
             controls.maxDistance = largestDimension * 10;
+            desiredDistance = camera.position.distanceTo(controls.target);
             camera.updateProjectionMatrix();
             controls.update();
         }, undefined, (error) => {
@@ -119,6 +126,15 @@
             requestAnimationFrame(animate);
             const delta = clock.getDelta();
             if (mixer) mixer.update(delta);
+            if (desiredDistance !== null) {
+                const offset = camera.position.clone().sub(controls.target);
+                const currentDistance = offset.length();
+                const smoothDistance = THREE.MathUtils.damp(currentDistance, desiredDistance, 7, delta);
+
+                camera.position.copy(controls.target).add(
+                    offset.normalize().multiplyScalar(smoothDistance)
+                );
+            }
             controls.update();
             renderer.render(scene, camera);
         }
