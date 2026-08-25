@@ -9,12 +9,12 @@
     </style>
 </head>
 <body>
-    <!-- Importmap para Three.js y loaders -->
+    <!-- Importmap para Three.js y sus addons -->
     <script type="importmap">
         {
             "imports": {
-                "three": "https://unpkg.com",
-                "three/addons/": "https://unpkg.com"
+                "three": "https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/"
             }
         }
     </script>
@@ -45,7 +45,7 @@
         // Usar ruta relativa para que funcione en cualquier hosting (archivo en la misma carpeta)
         textureLoader.load('./MAPA_MUNDI_.jpg', (texture) => {
             texture.mapping = THREE.EquirectangularReflectionMapping;
-            texture.encoding = THREE.sRGBEncoding;
+            texture.colorSpace = THREE.SRGBColorSpace;
             scene.background = texture;
             scene.environment = texture; // Ilumina el modelo con el entorno 360
         }, undefined, (err) => {
