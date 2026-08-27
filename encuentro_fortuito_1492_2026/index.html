@@ -1,171 +1,133 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Encuentro Fortuito</title>
-    <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; }
-    </style>
-</head>
-<body>
-    <!-- Importmap para Three.js y sus addons -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js",
-                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/"
-            }
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | My project (1)</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">My project (1)</div>
+      </div>
+    </div>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
         }
-    </script>
-
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
-        // 1. Escena, Cámara y Renderizador
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-        const clock = new THREE.Clock();
-        let mixer;
-        let desiredDistance = null;
-        const pressedKeys = new Set();
-
-        // 2. Controles de Cámara
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.08;
-        controls.rotateSpeed = 0.35;
-        controls.enableZoom = false;
-        controls.enablePan = false;
-        controls.minPolarAngle = 0.75;
-        controls.maxPolarAngle = 2.1;
-        controls.update();
-        controls.addEventListener('end', () => {
-            desiredDistance = camera.position.distanceTo(controls.target);
-        });
-
-        renderer.domElement.addEventListener('wheel', (event) => {
-            event.preventDefault();
-            const currentDistance = desiredDistance ?? camera.position.distanceTo(controls.target);
-            const zoomDirection = event.deltaY < 0 ? -1 : 1;
-            desiredDistance = THREE.MathUtils.clamp(
-                currentDistance * Math.exp(zoomDirection * Math.min(Math.abs(event.deltaY), 120) * 0.0018),
-                controls.minDistance,
-                controls.maxDistance
-            );
-        }, { passive: false });
-
-        window.addEventListener('keydown', (event) => {
-            if (event.code !== 'ArrowUp' && event.code !== 'ArrowDown') {
-                return;
-            }
-
-            event.preventDefault();
-            pressedKeys.add(event.code);
-        });
-
-        window.addEventListener('keyup', (event) => {
-            pressedKeys.delete(event.code);
-        });
-
-        window.addEventListener('blur', () => {
-            pressedKeys.clear();
-        });
-
-        // 3. Iluminación básica
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
-        scene.add(ambientLight);
-
-        // 4. Cargar Entorno 360 (Imagen Equirectangular)
-        const textureLoader = new THREE.TextureLoader();
-        // Usar ruta relativa para que funcione en cualquier hosting (archivo en la misma carpeta)
-        textureLoader.load('./MAPA_MUNDI_.jpg', (texture) => {
-            texture.mapping = THREE.EquirectangularReflectionMapping;
-            texture.colorSpace = THREE.SRGBColorSpace;
-            scene.background = texture;
-            scene.environment = texture; // Ilumina el modelo con el entorno 360
-        }, undefined, (err) => {
-            console.error('Error al cargar la imagen 360:', err);
-        });
-
-        // 5. Cargar Modelo GLB
-        const gltfLoader = new GLTFLoader();
-        // Usar ruta relativa para que funcione en cualquier hosting (archivo en la misma carpeta)
-        gltfLoader.load('./Encuentro_fortuito.glb', (gltf) => {
-            const model = gltf.scene;
-            model.position.set(0, 0, 0);
-            scene.add(model);
-
-            if (gltf.animations.length > 0) {
-                mixer = new THREE.AnimationMixer(model);
-                gltf.animations.forEach((clip) => {
-                    mixer.clipAction(clip).play();
-                });
-            }
-
-            const bounds = new THREE.Box3().setFromObject(model);
-            const size = bounds.getSize(new THREE.Vector3());
-            const center = bounds.getCenter(new THREE.Vector3());
-            const largestDimension = Math.max(size.x, size.y, size.z);
-            const cameraDistance = largestDimension / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
-            const humanEyeHeight = bounds.min.y + Math.min(1.7, size.y * 0.5);
-            const initialDistance = cameraDistance * 0.9;
-
-            camera.near = Math.max(largestDimension / 1000, 0.01);
-            camera.far = Math.max(largestDimension * 100, 1000);
-            camera.position.set(
-                center.x + initialDistance * 0.45,
-                humanEyeHeight + initialDistance * 0.22,
-                center.z + initialDistance
-            );
-            controls.target.set(center.x, humanEyeHeight, center.z);
-            controls.minDistance = largestDimension * 0.15;
-            controls.maxDistance = largestDimension * 10;
-            desiredDistance = camera.position.distanceTo(controls.target);
-            camera.updateProjectionMatrix();
-            controls.update();
-        }, undefined, (error) => {
-            console.error('Error al cargar el GLB:', error);
-        });
-
-        // 6. Animación y Redimensionamiento
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        function animate() {
-            requestAnimationFrame(animate);
-            const delta = clock.getDelta();
-            if (mixer) mixer.update(delta);
-            if (desiredDistance !== null) {
-                if (pressedKeys.has('ArrowUp') || pressedKeys.has('ArrowDown')) {
-                    const zoomDirection = pressedKeys.has('ArrowUp') ? -1 : 1;
-                    desiredDistance = THREE.MathUtils.clamp(
-                        desiredDistance * Math.exp(zoomDirection * 0.22 * delta),
-                        controls.minDistance,
-                        controls.maxDistance
-                    );
-                }
-
-                const offset = camera.position.clone().sub(controls.target);
-                const currentDistance = offset.length();
-                const smoothDistance = THREE.MathUtils.damp(currentDistance, desiredDistance, 4, delta);
-
-                camera.position.copy(controls.target).add(
-                    offset.normalize().multiplyScalar(smoothDistance)
-                );
-            }
-            controls.update();
-            renderer.render(scene, camera);
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
         }
-        animate();
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/encuentro_fortuito_1492_2026.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/encuentro_fortuito_1492_2026.data.br",
+        frameworkUrl: buildUrl + "/encuentro_fortuito_1492_2026.framework.js.br",
+        codeUrl: buildUrl + "/encuentro_fortuito_1492_2026.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "My project (1)",
+        productVersion: "0.1.0",
+        showBanner: unityShowBanner,
+        // errorHandler: function(err, url, line) {
+        //    alert("error " + err + " occurred at line " + line);
+        //    // Return 'true' if you handled this error and don't want Unity
+        //    // to process it further, 'false' otherwise.
+        //    return true;
+        // },
+      };
+
+      // By default, Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      // If you would like all file writes inside Unity Application.persistentDataPath
+      // directory to automatically persist so that the contents are remembered when
+      // the user revisits the site the next time, uncomment the following line:
+      // config.autoSyncPersistentDataPath = true;
+      // This autosyncing is currently not the default behavior to avoid regressing
+      // existing user projects that might rely on the earlier manual
+      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+      // expected to change.
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        document.querySelector("#unity-container").className = "unity-mobile";
+        canvas.className = "unity-mobile";
+
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
+        // config.devicePixelRatio = 1;
+
+
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
+
+      document.querySelector("#unity-loading-bar").style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                document.querySelector("#unity-loading-bar").style.display = "none";
+                document.querySelector("#unity-fullscreen-button").onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
+
+              }).catch((message) => {
+                alert(message);
+              });
+            };
+
+      document.body.appendChild(script);
+
     </script>
-</body>
+  </body>
 </html>
